@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+  // output = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  fName     String    @db.VarChar(255)
+  lName     String    @db.VarChar(255)
+  userName  String    @unique @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  password  String    @db.VarChar(255)
+  tasks     Task[]
+  comments  Comment[]
+}
+
+model Task {
+  id         Int        @id @default(autoincrement())
+  taskName   String     @db.VarChar(255)
+  assignTo   String?
+  taskType   String
+  taskStatus String
+  userId     Int
+  user       User       @relation(fields: [userId], references: [id])
+  comments   Comment[]
+  catTasks   CatAndTask[]
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())
+  comment  String @db.VarChar(255)
+  taskId   Int
+  userId   Int
+  task     Task   @relation(fields: [taskId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  category String    @db.VarChar(255)
+  catTasks CatAndTask[]
+}
+
+model CatAndTask {
+  id        Int       @id @default(autoincrement())
+  taskId    Int
+  catId     Int
+  task      Task      @relation(fields: [taskId], references: [id])
+  category  Category  @relation(fields: [catId], references: [id])
+
+  @@unique([taskId, catId])
+}
