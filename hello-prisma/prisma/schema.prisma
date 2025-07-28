@@ -28,7 +28,8 @@ model Task {
   userId     Int
   user       User       @relation(fields: [userId], references: [id])
   comments   Comment[]
-  catTasks   CatAndTask[]
+  catAndTasks   CatAndTask[]
+  createdAt  DateTime  @default(now())
 }
 
 model Comment {
@@ -38,12 +39,14 @@ model Comment {
   userId   Int
   task     Task   @relation(fields: [taskId], references: [id])
   user     User   @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Category {
   id       Int       @id @default(autoincrement())
   category String    @db.VarChar(255)
-  catTasks CatAndTask[]
+  catAndTasks CatAndTask[]
+  
 }
 
 model CatAndTask {
