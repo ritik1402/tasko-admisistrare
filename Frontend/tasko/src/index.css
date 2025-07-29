@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root{
+  --primary: #FE7743;
+  --secondary: #273F4F;
+  --text-color: #447D9B;
+  --small-color: #D7D7D7;
+}
+
+body{
+  background-image: url("../public/images/bg\ \(2\).svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vh;
+ z-index: 0;
+}
