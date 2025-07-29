@@ -9,52 +9,50 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  fName     String    @db.VarChar(255)
-  lName     String    @db.VarChar(255)
-  userName  String    @unique @db.VarChar(255)
-  email     String    @unique @db.VarChar(255)
-  password  String    @db.VarChar(255)
-  tasks     Task[]
-  comments  Comment[]
+  id             Int      @id @default(autoincrement())
+  fName          String   @db.VarChar(255)
+  lName          String   @db.VarChar(255)
+  userName       String   @unique @db.VarChar(255)
+  email          String   @unique @db.VarChar(255)
+  password       String   @db.VarChar(255)
+
+  tasksCreated   Task[]   @relation("CreatedTasks")
+  tasksAssigned  Task[]   @relation("AssignedTasks")
+  comments       Comment[]
+}
+
+model TaskType {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique @db.VarChar(255)
+  tasks    Task[]
 }
 
 model Task {
-  id         Int        @id @default(autoincrement())
-  taskName   String     @db.VarChar(255)
-  assignTo   String?
-  taskType   String
-  taskStatus String
-  userId     Int
-  user       User       @relation(fields: [userId], references: [id])
-  comments   Comment[]
-  catAndTasks   CatAndTask[]
-  createdAt  DateTime  @default(now())
+  id              Int       @id @default(autoincrement())
+  taskName        String    @db.VarChar(255)
+  taskStatus      String
+  createdAt       DateTime  @default(now())
+
+  taskTypeId      Int
+  taskType        TaskType  @relation(fields: [taskTypeId], references: [id], onDelete: Cascade)
+
+  userId          Int
+  user            User      @relation("CreatedTasks", fields: [userId], references: [id], onDelete: Cascade)
+
+  assignedUserId  Int
+  assignedUser    User      @relation("AssignedTasks", fields: [assignedUserId], references: [id], onDelete: Cascade)
+
+  comments        Comment[]
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
-  comment  String @db.VarChar(255)
-  taskId   Int
-  userId   Int
-  task     Task   @relation(fields: [taskId], references: [id])
-  user     User   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  comment   String   @db.VarChar(255)
   createdAt DateTime @default(now())
-}
 
-model Category {
-  id       Int       @id @default(autoincrement())
-  category String    @db.VarChar(255)
-  catAndTasks CatAndTask[]
-  
-}
-
-model CatAndTask {
-  id        Int       @id @default(autoincrement())
   taskId    Int
-  catId     Int
-  task      Task      @relation(fields: [taskId], references: [id])
-  category  Category  @relation(fields: [catId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
-  @@unique([taskId, catId])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
