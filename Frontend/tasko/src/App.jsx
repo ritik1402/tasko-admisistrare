@@ -1,22 +1,23 @@
-import { useState,useContext  } from 'react'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
-import { AuthProvider } from './context/AuthContext'
-
+import {  Routes, Route } from 'react-router-dom'
+import AuthPage from './components/AuthPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    <Navbar/>
-    <AuthProvider>
-      
-    </AuthProvider>
-    
-     
+      <Navbar />
+      <Routes>
+        
+          <Route path="/signup" element={<AuthPage />} />
+          
+        
+      </Routes>
     </>
   )
 }

@@ -7,11 +7,20 @@
   --small-color: #D7D7D7;
 }
 
-body{
-  background-image: url("../public/images/bg\ \(2\).svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100vh;
-  width: 100vh;
- z-index: 0;
+body {
+  background-image: url("/images/bg5.svg"); 
+  background-size: cover;         
+  background-repeat: no-repeat;    
+  background-position: center;    
+  background-attachment: fixed;    
+  height: 100vh;                   
+  width: 100vw;                    
+  margin: 0;
+  padding: 0;
+  
+  
 }
+
+/* <div className="bg-[var(--primary)] text-[var(--text-color)]">
+  Your content
+</div> */
