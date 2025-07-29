@@ -119,6 +119,25 @@ export const taskType = async (req, res) => {
   }
 };
 
+export const editTask = async (req,res)=>{
+    const {id} = req.params;
+    const {taskStatus} = req.body;
+    try {
+        const task = await prisma.task.update({
+            where : {
+                id : parseInt(id)
+            },
+            data :{
+                taskStatus,
+            }
+        })
+        return res.status(200).json({taskStatus,message:"Task updated succesully"});
+    }
+    catch(err){
+        console.error("Edit Task Error:", err);
+        return res.status(500).json({ message: "Unable to edit task" });
+    }
+}
 
 
 
