@@ -1,34 +1,38 @@
-import React from 'react'
-import {useState} from 'react'
+import React, { useState } from 'react'
 import Login from './Login'
 import Signup from './Signup'
-import { useNavigate } from 'react-router-dom'
 
 const AuthPage = () => {
-    const navigate = useNavigate();
-
-    const [isLogin,setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
 
   return (
-    <div>
-        {isLogin ? <Login/> : <Signup/>}
-        
-            {isLogin ?(
-                <>
-                <h4>Don't have an account ?</h4> 
-                <button onClick={() => setIsLogin(false)}>Signup</button>
-                </>
-            ) : (
-                <>
-                <p>Already have an account ?</p>
-                <button onClick ={()=> {navigate("/signup"); setIsLogin(true)}}>Login</button>
+    <div className="min-h-screen w-full overflow-x-hidden flex flex-col items-center justify-center bg-[var(--bg-color)] text-[var(--secondary)] px-4">
 
-                </>
-            )}
+      {isLogin ? <Login /> : <Signup />}
 
-
-        
-      
+      <div className="mt-4 text-center">
+        {isLogin ? (
+          <>
+            <p className="mb-2 text-[var(--small-color)]">Don't have an account?</p>
+            <button
+              onClick={() => setIsLogin(false)}
+              className="text-[var(--primary)] font-medium hover:underline  transition-all duration-300 cursor-pointer"
+            >
+              Sign Up
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="mb-2 text-[var(--small-color)]">Already have an account?</p>
+            <button
+              onClick={() => setIsLogin(true)}
+              className="text-[var(--primary)] font-medium hover:underline transition-all duration-300 cursor-pointer"
+            >
+              Log In
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }

@@ -9,40 +9,47 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  fName          String   @db.VarChar(255)
-  lName          String   @db.VarChar(255)
-  userName       String   @unique @db.VarChar(255)
-  email          String   @unique @db.VarChar(255)
-  password       String   @db.VarChar(255)
+  id       Int    @id @default(autoincrement())
+  fName    String @db.VarChar(255)
+  lName    String @db.VarChar(255)
+  userName String @unique @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
 
-  tasksCreated   Task[]   @relation("CreatedTasks")
-  tasksAssigned  Task[]   @relation("AssignedTasks")
-  comments       Comment[]
+  tasksCreated  Task[]    @relation("CreatedTasks")
+  tasksAssigned Task[]    @relation("AssignedTasks")
+  comments      Comment[]
 }
 
 model TaskType {
-  id       Int     @id @default(autoincrement())
-  name     String  @unique @db.VarChar(255)
-  tasks    Task[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(255)
+  tasks Task[]
+}
+
+enum TaskStatus {
+  Not_Started
+  IN_PROGRESS
+  COMPLETED
+  PENDING
 }
 
 model Task {
-  id              Int       @id @default(autoincrement())
-  taskName        String    @db.VarChar(255)
-  taskStatus      String
-  createdAt       DateTime  @default(now())
+  id         Int        @id @default(autoincrement())
+  taskName   String     @db.VarChar(255)
+  taskStatus TaskStatus @default(Not_Started)
+  createdAt  DateTime   @default(now())
 
-  taskTypeId      Int
-  taskType        TaskType  @relation(fields: [taskTypeId], references: [id], onDelete: Cascade)
+  taskTypeId Int
+  taskType   TaskType @relation(fields: [taskTypeId], references: [id], onDelete: Cascade)
 
-  userId          Int
-  user            User      @relation("CreatedTasks", fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  user   User @relation("CreatedTasks", fields: [userId], references: [id], onDelete: Cascade)
 
-  assignedUserId  Int
-  assignedUser    User      @relation("AssignedTasks", fields: [assignedUserId], references: [id], onDelete: Cascade)
+  assignedUserId Int
+  assignedUser   User @relation("AssignedTasks", fields: [assignedUserId], references: [id], onDelete: Cascade)
 
-  comments        Comment[]
+  comments Comment[]
 }
 
 model Comment {
@@ -50,9 +57,9 @@ model Comment {
   comment   String   @db.VarChar(255)
   createdAt DateTime @default(now())
 
-  taskId    Int
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId Int
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

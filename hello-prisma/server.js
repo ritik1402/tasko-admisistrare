@@ -1,6 +1,7 @@
 import express, { urlencoded } from 'express';
 import dotenv from 'dotenv'
 import routes from './routes/index.js';
+import cors from 'cors';
 
 
 const app = express();
@@ -8,6 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }))
+
+app.use(cors());
 
 
 dotenv.config();

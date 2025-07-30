@@ -17,9 +17,12 @@ body {
   width: 100vw;                    
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   
   
 }
+
+
 
 /* <div className="bg-[var(--primary)] text-[var(--text-color)]">
   Your content

@@ -1,9 +1,12 @@
 import express from "express";
 import prisma from "../DB/db.config.js";
+import { TaskStatus } from "@prisma/client";
 
 export const addTask = async (req, res) => {
-  const { taskName, taskType, taskStatus, assignedToUserId } = req.body;
+  const { taskName, taskType, taskStatus, assignTo } = req.body;
   const createdById = req.user?.id;
+  console.log(createdById);
+  console.log(assignTo);
 
   if (!createdById) {
     return res.status(401).json({ message: "Please login to create a task." });
@@ -11,7 +14,7 @@ export const addTask = async (req, res) => {
 
   try {
     const assignedUser = await prisma.user.findUnique({
-      where: { id: Number(assignedToUserId) },
+      where: { id: Number(assignTo) },
     });
 
     if (!assignedUser) {
@@ -31,7 +34,7 @@ export const addTask = async (req, res) => {
     const newTask = await prisma.task.create({
       data: {
         taskName,
-        taskStatus,
+        taskStatus: TaskStatus.taskStatus,
         taskTypeId: foundType.id, 
         // assignTo: assignedUser.userName,
         userId: createdById,
