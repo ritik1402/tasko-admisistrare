@@ -57,9 +57,9 @@ model Comment {
   comment   String   @db.VarChar(255)
   createdAt DateTime @default(now())
 
-  taskId Int
-  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    Int
+  task      Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

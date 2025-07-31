@@ -4,8 +4,8 @@ import { registerUser } from "../services/userServices";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-
   const navigate = useNavigate();
+  //  const [isLogin, setIsLogin] = useState(true)
 
   const [form, setForm] = useState({
     fName: "",
@@ -36,7 +36,7 @@ const Signup = () => {
       const response = await registerUser(form);
       alert("User created successfully!");
       console.log("Signup success:", response);
-      navigate("/")
+      navigate("/");
 
       setForm({
         fName: "",
@@ -53,14 +53,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup flex flex-col-reverse lg:flex-row-reverse justify-between w-full max-w-screen-lg h-auto lg:h-[85vh] border-2 border-amber-200 mx-auto mt-10 overflow-hidden ">
-      <div className="right bg-[url(./images/bg3.svg)] w-full lg:w-[50%] min-h-[40vh] bg-cover bg-no-repeat bg-blend-overlay bg-orange-950 bg-center flex items-center justify-center overflow-hidden  ">
-        <h2 className="text-2xl text-[var(--small-color)] font-semibold text-center px-4">
-          Join the Adventure!
-          <br />
-          Start your journey with us.
-        </h2>
-      </div>
+    <div className="signup flex flex-col-reverse lg:flex-row-reverse justify-between w-full max-w-screen-lg h-auto lg:h-[85vh] border-2 border-amber-200 mx-auto mt-10 overflow-hidden rounded-4xl ">
+      <div className="right bg-[url(./images/bg3.svg)] w-full lg:w-[50%] min-h-[40vh] bg-cover bg-no-repeat  bg-center flex items-center justify-center overflow-hidden bg-blend-darken bg-[var(--small-color)] "></div>
 
       <div className="left bg-[var(--secondary)] w-full lg:w-[50%] flex flex-col">
         <h2 className="text-[var(--primary)] text-2xl ml-6 mt-6 mb-4">
@@ -168,6 +162,17 @@ const Signup = () => {
             Register
           </button>
         </form>
+        <div className="flex items center  justify-center  gap-4 mt-2">
+          <p className=" text-[var(--small-color)]">
+            Already have an account?
+          </p>
+          <button
+            onClick={() => navigate("/login")}
+            className="text-[var(--primary)] font-medium hover:underline transition-all duration-300 cursor-pointer"
+          >
+            Log In
+          </button>
+        </div>
       </div>
     </div>
   );

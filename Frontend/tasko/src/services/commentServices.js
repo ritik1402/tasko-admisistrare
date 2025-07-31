@@ -1,17 +1,34 @@
 import axios from 'axios';
 
 
- const getToken = async () => {
-    const token =   localStorage.getItem('token');
-}
+export const getCommentsByTaskId = async (taskId) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`http://localhost:8000/api/comment/getcomment/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log("Failed to fetch comments", err);
+    return [];
+  }
+};
 
-export const getCommnets = async (id) => {
-    try {
-        const token = await getToken();
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
-        return response.data;
-    }
-    catch (error) {
-        console.error("Something went wrong", error);
-    }
+export  const createComment = async (taskId, comment) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(`http://localhost:8000/api/comment/addcomment/${taskId}`,{comment},
+       {
+      headers :{
+        Authorization: `Bearer ${token}`,
+      }
+  });
+  return response.data;
+  console.log(response.data);
+}
+catch (err) {
+    console.log("Something went wrong", err);
+}
 }

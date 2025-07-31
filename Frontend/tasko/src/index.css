@@ -7,6 +7,16 @@
   --small-color: #D7D7D7;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
 body {
   background-image: url("/images/bg5.svg"); 
   background-size: cover;         
@@ -18,7 +28,9 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  
+  overflow-y: auto;
+
+  /* background-attachment: scroll; */
   
 }
 

@@ -34,7 +34,7 @@ export const addTask = async (req, res) => {
     const newTask = await prisma.task.create({
       data: {
         taskName,
-        taskStatus: TaskStatus.taskStatus,
+        taskStatus: taskStatus,
         taskTypeId: foundType.id, 
         // assignTo: assignedUser.userName,
         userId: createdById,
@@ -70,6 +70,7 @@ export const viewTask = async (req, res) => {
       },
       orderBy: { id: "desc" },
     });
+    console.log(tasks);
 
     if (tasks.length === 0) {
       return res

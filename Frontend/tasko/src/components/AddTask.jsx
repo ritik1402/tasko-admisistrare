@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getTaskTypes, createTask } from '../services/taskServices.js';
 import { getUser } from '../services/userServices.js';
+import {toast} from 'react-hot-toast';
+import Button from '../components/UI/Button.jsx'
+import {createComment} from '../services/commentServices.js';
 
 const AddTask = () => {
   const [taskTypes, setTaskTypes] = useState([]);
@@ -9,9 +12,13 @@ const AddTask = () => {
     taskName: "",
     assignTo: "",
     taskType: "",
-    taskStatus: "Not Started",
-    comment: ""
+    taskStatus: "",
+    
   });
+  const [comments, setComments] = useState(" ");
+  
+  let response2;
+  
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -32,10 +39,50 @@ const AddTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    if(!form.taskName || !form.assignTo || !form.taskType){
+      toast.error('Please fill all the fields');
+      } else {
+
+        console.log(form);
+    try{
+
+
+      
     const response = await createTask(form);
+    toast.success("Task Added Succesfully");
     console.log(response);
+    response2 = response.task.id;
+    }
+    catch(error){
+      console.log(error);
+      toast.error("Failed to create task");
+    }
+    try{
+      if(comments && response2){
+        // const taskId = response.task.id;
+        console.log(comments);
+        console.log(response2);
+        const response = await createComment(response2,comments);
+        if(response)
+        {
+          toast.success("comment added")
+        }
+        else{
+          toast.error("Failed to add comment")
+        }
+      }
+    }
+    catch (error){
+      console.log(error);
+    }
+    
+
+      }
+    
+    
   };
+
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md">
@@ -44,7 +91,7 @@ const AddTask = () => {
         <div>
           <label className="block font-medium text-gray-700">Task Name</label>
           <input type="text" name="taskName" className="w-full border p-2 rounded"
-            value={form.taskName} onChange={handleChange} />
+            value={form.taskName} onChange={handleChange}  placeholder='Enter Task name'/>
         </div>
 
         <div>
@@ -70,25 +117,28 @@ const AddTask = () => {
         <div>
           <label className="block font-medium text-gray-700">Task Status</label>
           <select name="taskStatus" className="w-full border p-2 rounded" onChange={handleChange} value={form.taskStatus}>
-            <option value="Not Started">Not Started</option>
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
+            <option value="Not_Started">Not Started</option>
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
           </select>
         </div>
 
         <div>
           <label className="block font-medium text-gray-700">Add a Comment</label>
           <textarea name="comment" placeholder="Write a comment" className="w-full border p-2 rounded"
-            value={form.comment} onChange={handleChange} />
+            value={comments} onChange={(e)=> setComments(e.target.value)} />
         </div>
 
         <div>
-          <button className="bg-[#273F4F] hover:bg-[#273F4]" type="submit">Add Task</button>
+          <Button>
+            Add Task
+          </Button>
+          
         </div>
       </form>
     </div>
-  );
+  );  
 };
 
 export default AddTask;

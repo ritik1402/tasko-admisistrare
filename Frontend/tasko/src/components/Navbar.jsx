@@ -13,12 +13,23 @@ const Navbar = () => {
   }
 
   const handleLogin = () => {
-    navigate('/signup')
+    navigate('/login')
   }
 
+  const handleHome = () => {
+    if(user){
+      navigate('/dashboard/add-task')
+    }
+    else{
+      navigate('/');
+    }
+  }
+ 
+
   return (
-    <div className="navbar flex justify-between items-center mx-auto px-6 py-4 bg-[var(--secondary)] shadow-md">
-      <h1 className="text-2xl font-bold text-[var(--primary)]">Tasko Administrare</h1>
+    <div className="navbar w-full flex justify-between items-center px-6 py-4 bg-[var(--secondary)] shadow-md">
+
+      <h1 className="text-2xl font-bold text-[var(--primary)] cursor-pointer" onClick={()=> handleHome()}>Tasko Administrare</h1>
 
       <div className="flex items-center gap-6 text-[var(--primary)] text-lg font-medium">
         {user ? (
