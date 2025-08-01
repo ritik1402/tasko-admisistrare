@@ -2,7 +2,14 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { ClipboardPlus, FilePlus2, MessageCircle, List } from "lucide-react";
 
+
+
 const Sidebar = () => {
+
+//   if(!token){
+//   return <Navigate to="/login" replace={true} />
+// }
+
   return (
     <div className="flex min-h-screen">
       <div className="w-64 bg-[#273F4F] text-white p-4">

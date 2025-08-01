@@ -9,6 +9,17 @@ export const addComment = async (req, res) => {
 
     if (!id || !userId) {
       return res.status(400).json({ message: "Invalid request" });
+
+    // const taskName = await prisma.task.findUnique({
+    // where: {
+    //   id: id,
+    // },
+    // include: {
+    //   task: taskName,
+    // },
+    //   })
+
+
     }
     const commentData = await prisma.comment.create({
       data: {
@@ -28,13 +39,19 @@ export const getComments = async (req, res) => {
   try {
     const { id } = req.params;
     const comments = await prisma.comment.findMany({
-      where: {
-        taskId: Number(id),
-      },
-      include: {
-        user: true,
-      },
-    });
+  where: {
+    taskId: Number(id),
+  },
+  include: {
+    user: true,
+    task: {
+      select: {
+        taskName: true
+      }
+    }
+  },
+});
+
     return res.status(200).json(comments);
   } catch (err) {
     console.log("error in getting comments", err);

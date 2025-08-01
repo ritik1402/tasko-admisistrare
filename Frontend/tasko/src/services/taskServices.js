@@ -49,18 +49,20 @@ export const getAllTasks = async () => {
   }
 };
 
-export const editTask = async (task) => {
-  try{
+export const editTask = async (id, task) => {
+  try {
     const token = localStorage.getItem('token');
     const response = await axios.put(`${BASE_URL}/edittask/${id}`, task, {
       headers: {
         'Authorization': `Bearer ${token}`
-      }});
-      return response.data;
-  }
-  catch{
+      }
+    });
+    return response.data;
+  } catch (err) {
     console.log("Something went wrong", err);
+    return null;
   }
-}
+};
+
 
     

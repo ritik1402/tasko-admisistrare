@@ -11,6 +11,7 @@ import { useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import ProtectedRoutes from './context/ProtectedRoutes';
 
 function App() {
   const { user } = useAuth(); 
@@ -28,12 +29,12 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           {user && (
-            <Route path="/dashboard" element={<Sidebar />}>
+            <Route path="/dashboard" element={<ProtectedRoutes><Sidebar /></ProtectedRoutes>}>
               <Route index element={<Navigate to="add-task" />} /> 
-              <Route path="add-task" element={<AddTask />} />
-              <Route path="add-task-type" element={<AddTaskType />} />
-              <Route path="comments" element={<Comments />} />
-              <Route path="all-tasks" element={<ViewTask />} />
+              <Route path="add-task" element={<ProtectedRoutes><AddTask /></ProtectedRoutes>} />
+              <Route path="add-task-type" element={<ProtectedRoutes><AddTaskType /></ProtectedRoutes>} />
+              <Route path="comments" element={<ProtectedRoutes><Comments /></ProtectedRoutes>} />
+              <Route path="all-tasks" element={<ProtectedRoutes><ViewTask /></ProtectedRoutes>} />
             </Route>
           )}
 

@@ -68,7 +68,7 @@ const Comments = () => {
               comments.map((comment, index) => (
                 <tr key={index} className="border-t">
                   <td className="px-4 py-2">{comment.comment}</td>
-                  <td className='px-4 py-2'>{comment.taskId}</td>
+                  <td className='px-4 py-2'>{comment.task?.taskName}</td>
                   <td className="px-4 py-2">{comment.user?.userName}</td>
                 </tr>
               ))

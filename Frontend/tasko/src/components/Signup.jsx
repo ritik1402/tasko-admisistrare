@@ -34,9 +34,9 @@ const Signup = () => {
 
     try {
       const response = await registerUser(form);
-      alert("User created successfully!");
+      toast.success("User Created Succesfully")
       console.log("Signup success:", response);
-      navigate("/");
+      navigate("/login");
 
       setForm({
         fName: "",
@@ -47,7 +47,7 @@ const Signup = () => {
         confirmPassword: "",
       });
     } catch (err) {
-      alert(err);
+      toast.error("Unable to create user");
       console.error("Signup error:", err);
     }
   };

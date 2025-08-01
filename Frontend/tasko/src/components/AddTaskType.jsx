@@ -35,8 +35,8 @@ const AddTaskType = () => {
   return (
     <div className='flex flex-col  justify-evenly bg-white rounded-2xl p-4'>
       <label className='mb-4 text-2xl font-bold '>Task Type</label>
-      <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Add a task type' className='border-2'/>
-      <button onClick={handleAddTaskType} className='border-2 rounded-2xl w-[150px] p-2 m-4'>Add Task Type</button>
+      <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Add a task type' className='border-2 p-2 rounded-2xl'/>
+      <button onClick={handleAddTaskType} className='border-2 rounded-2xl w-[150px] p-2 m-4 bg-[var(--primary)]'>Add Task Type</button>
     </div>
   )
 }
