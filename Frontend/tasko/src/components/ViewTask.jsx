@@ -65,25 +65,24 @@ const ViewTask = () => {
     <div className="p-6 max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold text-[#273F4F] mb-6">View Tasks</h2>
 
-     
       <div className="flex gap-4 mb-6 border-b pb-2 border-gray-400">
         {["ALL", "IN_PROGRESS", "COMPLETED", "PENDING"].map((status) => (
           <button
             key={status}
             onClick={() => handleFilter(status)}
-            className={`text-blue-600 px-4 py-1 rounded-md transition-all my-4 duration-200 ${
-              activeFilter === status
-                ? " font-semibold underline"
-                : "hover:bg-blue-50 hover:border-2 hover:border-b-0 "
-            }`}
+            className={`px-4 py-1 rounded-md transition-all my-4 duration-200 font-semibold
+              ${
+                activeFilter === status
+                  ? "bg-[var(--primary)] text-white underline shadow"
+                  : "bg-white text-blue-600 hover:bg-[var(--primary)] hover:text-white hover:underline hover:shadow"
+              }
+            `}
           >
-            {/* {status.replace("_", " ")} */}
             {status}
           </button>
         ))}
       </div>
 
-     
       {loading ? (
         <div className="text-center mt-20">
           <div className="inline-block w-10 h-10 border-4 border-blue-400 border-dashed rounded-full animate-spin"></div>
@@ -198,3 +197,4 @@ const ViewTask = () => {
 };
 
 export default ViewTask;
+

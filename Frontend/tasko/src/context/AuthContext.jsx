@@ -1,9 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export const AuthContext = createContext();
-
-
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
@@ -16,27 +15,22 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  
-
-
   const login = (userData) => {
-  if (!userData || !userData.token) {
-    console.error("Invalid userData passed to login:", userData);
-    return;
-  }
+    if (!userData || !userData.token) {
+      console.error("Invalid userData passed to login:", userData);
+      return;
+    }
 
-  setUser(userData);
-  localStorage.setItem("user", JSON.stringify(userData));
-  localStorage.setItem("token", userData.token);
-};
-
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", userData.token);
+  };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     toast.success("Logout successfully");
-    
   };
 
   return (
@@ -47,3 +41,4 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+// 
