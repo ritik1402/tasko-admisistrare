@@ -36,7 +36,7 @@ enum TaskStatus {
 
 model Task {
   id         Int        @id @default(autoincrement())
-  taskName   String     @db.VarChar(255)
+  taskName   String     @db.VarChar(255) 
   taskStatus TaskStatus @default(Not_Started)
   createdAt  DateTime   @default(now())
 

@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { getAllTasks } from '../services/taskServices';
-import { getCommentsByTaskId } from '../services/commentServices.js';
+import React, { useEffect, useState } from "react";
+import { getAllTasks } from "../services/taskServices";
+import { getCommentsByTaskId } from "../services/commentServices.js";
 
 const Comments = () => {
   const [tasks, setTasks] = useState([]);
-  const [selectedTaskId, setSelectedTaskId] = useState('');
+  const [selectedTaskId, setSelectedTaskId] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
       const data = await getAllTasks();
       setTasks(data);
-
     };
     fetchTasks();
   }, []);
@@ -23,7 +22,7 @@ const Comments = () => {
     if (taskId) {
       const commentData = await getCommentsByTaskId(taskId);
       setComments(commentData);
-      console.log("Fetched comments: ", commentData); 
+      console.log("Fetched comments: ", commentData);
     } else {
       setComments([]);
     }
@@ -31,9 +30,13 @@ const Comments = () => {
 
   const columns = ["Comment", "Task Name", "From User"];
 
+  const validComments = comments?.filter((c) => c.comment && c.comment.trim());
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-bold text-[#273F4F] mb-4">View Task Comments</h2>
+      <h2 className="text-xl font-bold text-[#273F4F] mb-4">
+        View Task Comments
+      </h2>
 
       <label className="block mb-2 font-semibold">Select Task</label>
       <select
@@ -44,7 +47,8 @@ const Comments = () => {
         <option value="">-- Select Task --</option>
         {tasks.map((task) => (
           <option key={task.id} value={task.id}>
-            {task.taskName} | from: {task.user?.userName} | to: {task.assignedUser?.userName} | {task.createdAt}
+            {task.taskName} | from: {task.user?.userName} | to:{" "}
+            {task.assignedUser?.userName} | {task.createdAt}
           </option>
         ))}
       </select>
@@ -55,20 +59,27 @@ const Comments = () => {
           <thead>
             <tr className="bg-[var(--secondary)] text-[var(--small-color)] p-2">
               {columns.map((col, index) => (
-                <th key={index} className="text-left px-4 py-2">{col}</th>
+                <th key={index} className="text-left px-4 py-2">
+                  {col}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {comments.length === 0 ? (
+            {(!validComments || validComments.length === 0) ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-2 text-center text-gray-500">No comments available</td>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-2 text-center text-gray-500"
+                >
+                  No comments available
+                </td>
               </tr>
             ) : (
-              comments.map((comment, index) => (
+              validComments.map((comment, index) => (
                 <tr key={index} className="border-t">
                   <td className="px-4 py-2">{comment.comment}</td>
-                  <td className='px-4 py-2'>{comment.task?.taskName}</td>
+                  <td className="px-4 py-2">{comment.task?.taskName}</td>
                   <td className="px-4 py-2">{comment.user?.userName}</td>
                 </tr>
               ))
@@ -81,3 +92,4 @@ const Comments = () => {
 };
 
 export default Comments;
+

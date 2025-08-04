@@ -16,7 +16,19 @@ const AddTask = () => {
     taskType: "",
     taskStatus: "",
   });
-  const [comments, setComments] = useState(" ");
+  const [comments, setComments] = useState([]);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+
+  const handleAddComment = () => {
+    setComments([...comments, ""]);
+    setShowCommentBox(true);
+  };
+
+  const handleCommentChange = (index, value) => {
+    const updated = [...comments];
+    updated[index] = value;
+    setComments(updated);
+  };
 
   const dispatch = useDispatch();
   const { data: users, isLoading: usersLoading } = useSelector(
@@ -52,11 +64,12 @@ const AddTask = () => {
       toast.success("Task Added Successfully");
       const taskId = response?.task?.id;
 
-      if (comments && taskId) {
-        const commentResponse = await createComment(taskId, comments);
-        commentResponse
-          ? toast.success("Comment added")
-          : toast.error("Failed to add comment");
+      if (taskId && comments.length > 0) {
+        for (const comment of comments) {
+          if (comment.trim()) {
+            await createComment(taskId, comment);
+          }
+        }
       }
     } catch (error) {
       console.log(error);
@@ -69,7 +82,9 @@ const AddTask = () => {
       <h2 className="text-xl font-bold mb-4 text-[#273F4F]">Add a New Task</h2>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div>
-          <label className="block font-medium text-gray-700">Task Name</label>
+          <label className="block font-medium text-gray-700">
+            Task Name<span className="text-red-500">*</span>
+          </label>
           <input
             type="text"
             name="taskName"
@@ -81,7 +96,9 @@ const AddTask = () => {
         </div>
 
         <div>
-          <label className="block font-medium text-gray-700">Assign To</label>
+          <label className="block font-medium text-gray-700">
+            Assign To<span className="text-red-500">*</span>
+          </label>
           <select
             name="assignTo"
             className="w-full border p-2 rounded"
@@ -102,7 +119,9 @@ const AddTask = () => {
         </div>
 
         <div>
-          <label className="block font-medium text-gray-700">Task Type</label>
+          <label className="block font-medium text-gray-700">
+            Task Type<span className="text-red-500">*</span>
+          </label>
           <select
             name="taskType"
             className="w-full border p-2 rounded"
@@ -123,7 +142,9 @@ const AddTask = () => {
         </div>
 
         <div>
-          <label className="block font-medium text-gray-700">Task Status</label>
+          <label className="block font-medium text-gray-700">
+            Task Status<span className="text-red-500">*</span>
+          </label>
           <select
             name="taskStatus"
             className="w-full border p-2 rounded"
@@ -137,17 +158,24 @@ const AddTask = () => {
           </select>
         </div>
 
-        <div>
-          <label className="block font-medium text-gray-700">
+        <div className="flex flex-col-reverse gap-2">
+          <label
+            className="block font-medium text-blue-700 cursor-pointer"
+            onClick={handleAddComment}
+          >
             Add a Comment
           </label>
-          <textarea
-            name="comment"
-            placeholder="Write a comment"
-            className="w-full border p-2 rounded"
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
-          />
+
+          {showCommentBox &&
+            comments.map((comment, index) => (
+              <textarea
+                key={index}
+                className="w-full border p-2 rounded"
+                placeholder={`Comment ${index + 1}`}
+                value={comment}
+                onChange={(e) => handleCommentChange(index, e.target.value)}
+              />
+            ))}
         </div>
 
         <div>

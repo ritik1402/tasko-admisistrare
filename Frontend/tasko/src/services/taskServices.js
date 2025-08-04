@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 const BASE_URL = "http://localhost:8000/api/task";
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
 const handleTokenError = (err) => {
   if (

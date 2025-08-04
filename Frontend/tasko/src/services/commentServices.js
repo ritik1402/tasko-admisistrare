@@ -4,7 +4,7 @@ import axios from 'axios';
 export const getCommentsByTaskId = async (taskId) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axiosInstance.get(`http://localhost:8000/api/comment/getcomment/${taskId}`, {
+    const response = await axios.get(`http://localhost:8000/api/comment/getcomment/${taskId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +19,7 @@ export const getCommentsByTaskId = async (taskId) => {
 export  const createComment = async (taskId, comment) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axiosInstance.post(`http://localhost:8000/api/comment/addcomment/${taskId}`,{comment},
+    const response = await axios.post(`http://localhost:8000/api/comment/addcomment/${taskId}`,{comment},
        {
       headers :{
         Authorization: `Bearer ${token}`,
